@@ -1,7 +1,7 @@
 
 require('dotenv').config();
 
-const DOMAIN_OVERRIDE = process.env.DOMAIN_OVERRIDE || "us";
+const DOMAIN_OVERRIDE = process.env.DOMAIN_OVERRIDE || "hshf";
 
 const http = require('http');
 const fs = require('fs');
@@ -10,14 +10,12 @@ const hostname = process.env.BIND_IP || process.env.HOST || '127.0.0.1';
 const port = process.env.PORT || 3000;
 
 var home = "homepage";
-var donate = "secure_donation_form";
 
 var page_index = {};
 var filename_index = {
-    homepage_us:__dirname+'/index-us.html',
-    homepage_org:__dirname+'/index-org.html',
-    homepage_net:__dirname+'/index-net.html',
-    secure_donation_form:__dirname+'/'+ donate + ".html"
+    homepage_hsfad:__dirname+'/index_hsfad.html',
+    homepage_hshf:__dirname+'/index_hshf.html',
+    homepage_vitality:__dirname+'/index_vitality.html',
   };
 
 function reloadPage( v ){
@@ -27,10 +25,9 @@ function reloadPage( v ){
   });
 }
 
-reloadPage( home + "_us" );
-reloadPage( home + "_org" );
-reloadPage( home + "_net" );
-reloadPage( donate );
+reloadPage( home + "_hsfad" );
+reloadPage( home + "_hshf" );
+reloadPage( home + "_vitality" );
 
 /*
 fs.watch( filename_index[ home ], ( eventType, filename ) => {
@@ -74,26 +71,8 @@ const server = http.createServer((req, res) => {
   }else{ //if not an image ...
 
     //get the requesting domain extension for proper routing
-    let de = DOMAIN_OVERRIDE || req.headers.host.split(":")[0].split(".").pop();
+    let de = DOMAIN_OVERRIDE || "hshf";
     //console.log(de); //to debug what domain is being requested ...
-    let visiting = "";
-    switch( de ){
-        case '1': //working localhost here ...
-          //default localhost to same as .us extension ( the superpac )
-          de = 'us';
-        case 'us':
-          visiting = "SuPeR Pac";
-        break;
-      case 'org':
-        //send .org traffic to its own splash page for now
-        visiting = "No-Profit(s)";
-        break;
-      case 'net':
-        //send this traffic to a different dead end page for now
-        visiting = "Network";
-        break;
-    }
-
     let p = req.url.substr(1).split(".")[0].toLowerCase().split("/"); //get just the page name - assumes a leading "/" and works with .html extension or without
     let pagename = p[0];
     let subpath = p[1] || "";
@@ -104,8 +83,6 @@ const server = http.createServer((req, res) => {
       let t = require(toolspath + '/putyouhereifier.js').module();
       //insert herification data
       t = page_index[ home + "_" + de ].split("<hereify />").join(t);
-      //splice in the locator data
-      t = t.split("<locateme />").join( visiting );
       //return the page contents
       res.writeHead(200, {'Content-Type': 'text/html','Content-Length':t.length });
       res.write(t);
