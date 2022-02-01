@@ -3,6 +3,8 @@ require('dotenv').config();
 
 const DOMAIN_OVERRIDE = process.env.DOMAIN_OVERRIDE || "hshf";
 
+var domains = {hiddenspringsfarmanddairy:"hsfad", hiddenspringshorsefarm:"hshf", vitalitybodyworkandwellness:"vitality"};
+
 const http = require('http');
 const fs = require('fs');
 
@@ -70,8 +72,18 @@ const server = http.createServer((req, res) => {
     })
   }else{ //if not an image ...
 
+    console.log("host is :: ", req.headers.host);
     //get the requesting domain extension for proper routing
-    let de = DOMAIN_OVERRIDE || "hshf";
+    let d = req.headers.host.split(".");
+    for( let i=0; i<d.length; i++ ){
+      if(d[i] == "www") continue;
+      else{
+        d = d[i];
+        break;
+      }
+    }
+    console.log("hostname only is :: " + d);
+    let de = domains[ req.headers.host ]|| DOMAIN_OVERRIDE;
     //console.log(de); //to debug what domain is being requested ...
     let p = req.url.substr(1).split(".")[0].toLowerCase().split("/"); //get just the page name - assumes a leading "/" and works with .html extension or without
     let pagename = p[0];
