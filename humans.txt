@@ -1,0 +1,26 @@
+
+/* TEAM */
+
+
+Creator: Nathan Wheeler
+
+
+https://www.regenernate.com: regenernate @ gmail
+
+
+Location: NC - USA.
+
+
+/* SITE */
+
+
+Last update: Early Feb. 2022
+
+
+Standards: HTML5, CSS3, Node.js
+
+
+Components: Moment.js
+
+
+Software: Atom, Photoshop
