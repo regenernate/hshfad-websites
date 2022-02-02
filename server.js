@@ -44,6 +44,8 @@ fs.watch( filename_index[ home ], ( eventType, filename ) => {
 const server = http.createServer((req, res) => {
   res.statusCode = 200;
 
+  if( !req.headers.accept ) req.headers.accept = "text/html";
+
   //serve images first
   if( req.url === '/favicon.ico' || req.headers.accept.substr(0,5).toLowerCase() == 'image' ){
     var filename = __dirname+'/images'+req.url;
@@ -121,7 +123,7 @@ const server = http.createServer((req, res) => {
     }else{ //these are requests we don't yet handle
       console.log("OOPS !!!! it isnt css or a known page in server.js ( towards the end )" + req.url);
       res.writeHead(200, { 'Content-Type':'text/plain' })
-      res.end('Requested :: ' + req.url + " which does not yet have routing defined. ( in the final 'else' of server.js )");
+      res.end("Hmmm ... we're not sure what you're looking for. You requested :: " + req.url + " which does not yet have routing defined.");
 //      throw new Error("Oops, this shouldn't have happened!");
     }
   }
