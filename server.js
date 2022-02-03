@@ -3,7 +3,15 @@ require('dotenv').config();
 
 const DOMAIN_OVERRIDE = process.env.DOMAIN_OVERRIDE || "hshf";
 
-var domains = {hiddenspringsfarmanddairy:"hsfad", hiddenspringshorsefarm:"hshf", vitalitybodyworkandwellness:"vitality"};
+//domain lock so users are less likely to just add tons of domains without thinking and testing
+//this is a feature of the server, not a domain switching station
+var domains = {
+  hiddenspringsfarmanddairy:"hsfad",
+  hiddenspringshorsefarm:"hshf",
+  vitalitybodyworkandwellness:"vitality",
+  theregenerativehub:"theregenerativehub",
+  theregenernation:"theregenernation"
+};
 
 const http = require('http');
 const fs = require('fs');
@@ -78,7 +86,7 @@ const server = http.createServer((req, res) => {
       res.end();
     })
   }else{ //if not an image ...
-
+    console.log(req.headers.host);
     //get the requesting domain extension for proper routing
     let d = req.headers.host.split(".");
     for( let i=0; i<d.length; i++ ){
@@ -90,9 +98,12 @@ const server = http.createServer((req, res) => {
     }
 
     //getting the domain so we know what content to serve
+    //don't forget to add your new domains to the domain lock at top of page
+
     let de = domains[ d ] || DOMAIN_OVERRIDE;
 
-    //console.log(de); //to debug what domain is being requested ...
+    console.log("Request received from :: " + de); //to debug what domain is being requested ...
+
     let p = req.url.substr(1).split(".")[0].toLowerCase().split("/"); //get just the page name - assumes a leading "/" and works with .html extension or without
     let pagename = p[0];
     let subpath = p[1] || "";
