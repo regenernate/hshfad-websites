@@ -15,10 +15,12 @@ var home = "homepage";
 
 var page_index = {};
 var filename_index = {
-    homepage_hsfad:__dirname+'/index_hsfad.html',
-    homepage_hshf:__dirname+'/index_hshf.html',
-    homepage_vitality:__dirname+'/index_vitality.html',
-  };
+  homepage_hsfad:__dirname+'/index_hsfad.html',
+  homepage_hshf:__dirname+'/index_hshf.html',
+  homepage_vitality:__dirname+'/index_vitality.html',
+  theregenerativehub:__dirname+'/known404s/theregenerativehub.html',
+  theregenernation:__dirname+'/known404s/theregenernation.html'
+};
 
 function reloadPage( v ){
   page_index[ v ] = "";
@@ -30,6 +32,9 @@ function reloadPage( v ){
 reloadPage( home + "_hsfad" );
 reloadPage( home + "_hshf" );
 reloadPage( home + "_vitality" );
+//known and managed 404s
+reloadPage( "theregenerativehub" );
+reloadPage( "theregenernation" );
 
 /*
 fs.watch( filename_index[ home ], ( eventType, filename ) => {
@@ -83,14 +88,20 @@ const server = http.createServer((req, res) => {
         break;
       }
     }
+
     //getting the domain so we know what content to serve
     let de = domains[ d ] || DOMAIN_OVERRIDE;
+
     //console.log(de); //to debug what domain is being requested ...
     let p = req.url.substr(1).split(".")[0].toLowerCase().split("/"); //get just the page name - assumes a leading "/" and works with .html extension or without
     let pagename = p[0];
     let subpath = p[1] || "";
     //console.log("Looking for page :: " + pagename + " in " + visiting );
-    if( pagename === '' || pagename === 'index' ){ //peel off the homepage requests first
+    if( filename_index.hasOwnProperty( de ) ){ //peel off known 404 domains
+      res.writeHead(200, {'Content-Type': 'text/html','Content-Length':t.length });
+      res.write( page_index[de] );
+      res.end();
+    }else if( pagename === '' || pagename === 'index' ){ //peel off the root domain homepage requests for next
       var toolspath = __dirname + '/tools';
       //hereify
       let t = require(toolspath + '/putyouhereifier.js').module();
@@ -100,7 +111,7 @@ const server = http.createServer((req, res) => {
       res.writeHead(200, {'Content-Type': 'text/html','Content-Length':t.length });
       res.write(t);
       res.end();
-    }else if( filename_index.hasOwnProperty( pagename ) ) { //this is a known page, not the homepage, ( with a template to display )
+    }else if( filename_index.hasOwnProperty( pagename ) ) { //this is a known page on a root domain, not the homepage, ( with a template to display )
       //find the template to run
       let t = page_index[ pagename ];
       let r = "";
