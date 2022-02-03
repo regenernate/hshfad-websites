@@ -98,7 +98,7 @@ const server = http.createServer((req, res) => {
     let subpath = p[1] || "";
     //console.log("Looking for page :: " + pagename + " in " + visiting );
     if( filename_index.hasOwnProperty( de ) ){ //peel off known 404 domains
-      res.writeHead(200, {'Content-Type': 'text/html','Content-Length':t.length });
+      res.writeHead(200, {'Content-Type': 'text/html','Content-Length':page_index[de].length });
       res.write( page_index[de] );
       res.end();
     }else if( pagename === '' || pagename === 'index' ){ //peel off the root domain homepage requests for next
