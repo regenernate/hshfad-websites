@@ -33,7 +33,21 @@ var filename_index = {
 function reloadPage( v ){
   page_index[ v ] = "";
   fs.readFile(filename_index[ v ],function (err, data){
-    page_index[ v ] += data;
+    if( err ) throw new Error(err);
+    //insert header using headerer tool
+    let d = data.toString();
+    if( d && !page_index[ v ] ){ // this should only be entered on the FIRST data chunk
+      let h = require('./tools/headerer.js');
+      let content_start = d.split( h.start_tag );
+      if( content_start.length == 2 ){
+        let content_end = content_start[1].split(h.end_tag);
+        d = content_start[0] + h.makeHeader(content_end[0]) + content_end[1];
+      }else{
+        console.log("This one don't have no header ... ( server.js ).");
+        //d remains unchanged
+      }
+    }
+    page_index[ v ] += d;
   });
 }
 
