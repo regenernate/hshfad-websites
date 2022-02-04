@@ -9,6 +9,7 @@ var domains = {
   hiddenspringsfarmanddairy:"hsfad",
   hiddenspringshorsefarm:"hshf",
   vitalitybodyworkandwellness:"vitality",
+  ravenridgefamilyfarm:"rrff",
   theregenerativehub:"theregenerativehub",
   theregenernation:"theregenernation"
 };
@@ -26,6 +27,7 @@ var filename_index = {
   homepage_hsfad:__dirname+'/index_hsfad.html',
   homepage_hshf:__dirname+'/index_hshf.html',
   homepage_vitality:__dirname+'/index_vitality.html',
+  homepage_rrff:__dirname+'/index_rrff.html',
   theregenerativehub:__dirname+'/known404s/theregenerativehub.html',
   theregenernation:__dirname+'/known404s/theregenernation.html'
 };

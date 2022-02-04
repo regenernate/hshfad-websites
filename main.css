@@ -59,6 +59,10 @@ h5{
   text-align:left;
 }
 
+.wide-image {
+  width:100%;
+  max-width:1200px;
+}
 .medium-image {
   width:600px;
   padding:5px;
