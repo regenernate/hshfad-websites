@@ -8,6 +8,7 @@ const DOMAIN_OVERRIDE = process.env.DOMAIN_OVERRIDE || "hshf";
 var domains = {
   hiddenspringsfarmanddairy:"hsfad",
   hiddenspringshorsefarm:"hshf",
+  ravenridgefamilyfarm:"rrff",
   vitalitybodyworkandwellness:"vitality",
   ravenridgefamilyfarm:"rrff",
   theregenerativehub:"theregenerativehub",
@@ -55,6 +56,7 @@ function reloadPage( v ){
 
 reloadPage( home + "_hsfad" );
 reloadPage( home + "_hshf" );
+reloadPage( home + "_rrff" );
 reloadPage( home + "_vitality" );
 //known and managed 404s
 reloadPage( "theregenerativehub" );
