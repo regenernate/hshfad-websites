@@ -1,4 +1,3 @@
-
 require('dotenv').config();
 
 const DOMAIN_OVERRIDE = process.env.DOMAIN_OVERRIDE || "hshf";
@@ -20,9 +19,20 @@ var page_index = {};
 var filename_index = require('./data/templates.json').templates;
 
 //define any preprocessors
-var preprocessors = {
+var preprocessors = {};
+let pp;
+try{ pp = require('./data/preprocessors.json').preprocessors }catch(err){};
+if(pp ){
+  for( let i in pp ){
+    preprocessors[pp[i].signature] = require(pp[i].path)[pp[i].method];
+  }
 }
 
+/*
+  definitions:require('./tools/terminator').fillTerms,
+  listify:require('./tools/terminator').listify
+}
+*/
 function reloadPage( v ){
   page_index[ v ] = "";
   fs.readFile(filename_index[ v ],function (err, data){
@@ -138,7 +148,9 @@ const server = http.createServer((req, res) => {
         t = t.split("<returnificate-me />").join(r);
       }
       //run any preprocessing necessary
-      if( preprocessors.hasOwnProperty( pagename ) ) t = preprocessors[pagename]( t, subpath );
+      if( preprocessors.hasOwnProperty( pagename ) ){
+         t = preprocessors[pagename]( t, subpath );
+      }
       //this is technically a definitions preprocessor but all pages could have lists
       if( preprocessors.listify ) t = preprocessors.listify(t);
       res.writeHead(200, {'Content-Type':'text/html', 'Content-Length':t.length})
