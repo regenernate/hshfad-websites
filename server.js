@@ -46,6 +46,7 @@ function reloadPage( v ){
         let content_end = content_start[1].split(h.end_tag);
         d = content_start[0] + h.makeHeader(content_end[0]) + content_end[1];
       }else{
+        console.log("v ", v);
         console.log("This one don't have no header ... ( server.js ).");
         //d remains unchanged
       }
@@ -67,6 +68,7 @@ fs.watch( filename_index[ home ], ( eventType, filename ) => {
 */
 //add listener to homepage for auto-refresh???
 
+const text_types = {css:true, txt:true};
 
 const server = http.createServer((req, res) => {
   res.statusCode = 200;
@@ -92,23 +94,37 @@ const server = http.createServer((req, res) => {
     });
     // This catches any errors that happen while creating the readable stream (usually invalid names)
     readStream.on('error', function(err) {
-      res.writeHead(400)
+      res.writeHead(404)
 //      console.log("There was a failure reading :: " + filename + " :: " + err );
       res.end();
     });
     readStream.on('complete', function(done){
       res.end();
     })
-  }else if( req.url.substr(-3) === "css" ){ //these are css requests
+  }else if( text_types.hasOwnProperty(req.url.substr(-3) ) ){ //these are css or txt requests
 //      console.log("its css ! " +req.url)
+    let content_type = req.url.substr(-3);
     var filename = __dirname+req.url;
     fs.readFile(filename,function (err, data){
-      res.writeHead(200, {'Content-Type': 'text/css','Content-Length':data.length});
-      res.write(data);
+      if( err ){
+        console.log(err);
+        res.writeHead(404);
+      }else{
+        res.writeHead(200, {'Content-Type': 'text/' + content_type,'Content-Length':data.length});
+        res.write(data);
+      }
       res.end();
     });
-  }else{ //if not an image or css ...
-    console.log("HOST :: " + req.headers.host);
+  }else if(req.headers.accept.toLowerCase().indexOf("json") >= 0){ //if not an image or css or json request
+
+
+    let d = JSON.stringify({success:true});
+    res.writeHead(200, {'Content-Type':'application/json', 'Content-Length':d.length});
+    res.write(d);
+    res.end;
+
+
+  }else{ //all "normal" requests for page content
     //get the requesting domain extension for proper routing
     let d = req.headers.host.split(".");
     if( d[0] == "www" ) d = d[1];
