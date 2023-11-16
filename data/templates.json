@@ -1,9 +1,8 @@
 {
   "templates":{
-    "hsfad":"./hsfad.html",
-    "hshf":"./hshf.html",
-    "vitality":"./vitality.html",
-    "rrff":"./rrff.html",
+    "cbwhorsemanship":"./nav_splash.html",
+    "welcome":"./welcome.html",
+    "horseme":"./horseme.html",
     "theregenerativehub":"./known404s/theregenerativehub.html",
     "theregenernation":"./known404s/theregenernation.html"
   }

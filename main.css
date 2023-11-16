@@ -23,11 +23,36 @@ footer{
 nav{
   list-style:none;
   text-align:center;
+  width:100%;
+  padding:.5em 3em;
+}
+
+nav ls{
+  margin-top:0;
+  padding-bottom:3px;
+  border-top:1px solid black;
+  border-bottom:1px solid black;
 }
 
 nav li{
   display:inline;
-  padding-right:1rem;
+}
+
+li a{
+  padding:3px 1em;
+  text-decoration: none;
+  display: inline-block;
+  font-family:"Copperplate";
+  color: #9A3533;
+}
+
+li a:visited{
+  color: #C66143;
+}
+
+li a:hover{
+  background-color: #742F2F;
+  color: #FFFFFF;
 }
 
 .word-list{
@@ -48,6 +73,10 @@ nav li{
   max-width:800px;
 }
 
+.wide{
+  width=100%;
+  max-width:1200px;
+}
 .pic-list{
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
@@ -126,6 +155,11 @@ h5{
   padding:0px;
 }
 
+.icon-image{
+  display:block;
+  max-width:100px;
+  padding:0px;
+}
 .fullwidth-image{
   display:block;
   max-width:100%;
@@ -145,6 +179,7 @@ h5{
  }
 
 .bigfont{
+  color:#333143;
   font-size:1.2rem;
   font-weight: bold;
 }
@@ -152,10 +187,17 @@ h5{
 .quoted{
   margin: 10%;
   font-size:.9rem;
+  line-height: 1.6;
   font-family:Georgia;
   font-style:italic;
 }
 
+.straight-hugefont{
+  font-size:1.6rem;
+  line-height: 1.5;
+  font-family:Georgia;
+  font-weight:bold;
+}
 .lineup{
   display:inline-block;
 }
@@ -166,6 +208,15 @@ h5{
 
 .overlaid{
   position:absolute;
+}
+
+.overlaid-text {
+  position: absolute;
+  top: 50%; 
+  left: 50%; 
+  transform: translate(-50%, -50%); 
+  color: #fff; 
+  text-align: center;
 }
 
 .h-centered{
@@ -201,4 +252,28 @@ h5{
 .sign-language-small{
   max-width: 75px;
   display:inline-block;
+}
+
+.pad{
+  padding:1em;
+}
+
+.big-pad{
+  padding:2.5em;
+}
+
+.bottom-pad{
+  padding-bottom:1em;
+}
+
+.big-bottom-pad{
+  padding-bottom:2.5em;
+}
+
+.top-pad{
+  padding-top:1em;
+}
+
+.big-top-pad{
+  padding-top:2.5em;
 }

@@ -1,6 +1,6 @@
 require('dotenv').config();
 
-const DOMAIN_OVERRIDE = process.env.DOMAIN_OVERRIDE || "hshf";
+const DOMAIN_OVERRIDE = "cbwhorsemanship";
 const IMAGE_PATH = process.env.IMAGE_PATH;
 
 const http = require('http');
@@ -94,7 +94,7 @@ const server = http.createServer((req, res) => {
     });
     // This catches any errors that happen while creating the readable stream (usually invalid names)
     readStream.on('error', function(err) {
-      res.writeHead(404)
+      res.writeHead(404);
 //      console.log("There was a failure reading :: " + filename + " :: " + err );
       res.end();
     });
@@ -132,7 +132,6 @@ const server = http.createServer((req, res) => {
 
     //getting the domain so we know what content to serve
     //don't forget to add your new domains to the domain lock at top of page
-
     let de = domains[ d ] || DOMAIN_OVERRIDE;
 
     //console.log("ROUTING TO :: " + de );
@@ -146,6 +145,7 @@ const server = http.createServer((req, res) => {
     if( pagename === '' || pagename === 'index' ){ //peel off the root domain homepage requests
       let t = require(toolspath + '/putyouhereifier.js').module();
       //insert herification data
+      
       t = page_index[ de ].split("<hereify />").join(t);
       //add any lists needed by this page
       if( preprocessors.listify ) t = preprocessors.listify(t);
